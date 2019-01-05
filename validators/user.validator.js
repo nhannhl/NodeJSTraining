@@ -2,7 +2,7 @@
 import Joi from 'joi';
 
 const objectIdRegex = /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/;
-const UserValidate = {}
+const UserValidate = {};
 
 UserValidate.datalUser = {
     body: {

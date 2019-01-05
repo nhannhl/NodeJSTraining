@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import connectToDb from './db/connect';
 import user from './routes/user.routes';
+import group from './routes/group.routes';
 
 const server = express();
 
@@ -13,6 +14,7 @@ server.use(bodyParser.urlencoded({
 }));
 
 server.use(user);
+server.use(group);
 
 server.use((err, req, res, next) => {
 	return res.status(400).json({
