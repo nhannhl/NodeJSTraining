@@ -7,7 +7,8 @@ const router = new Router();
 
 router.get('/groups', GroupController.getGroups);
 router.post('/groups', Validation(GroupValidate.dataGroup), GroupController.newGroup);
-router.post('/groups/:id', [Validation(GroupValidate.groupId), Validation(GroupValidate.addDeleteMembers)], GroupController.addMembers);
-router.delete('/groups/:id', [Validation(GroupValidate.groupId), Validation(GroupValidate.addDeleteMembers)], GroupController.deleteMembers);
+router.post('/groups/addMembers/:id', [Validation(GroupValidate.groupId), Validation(GroupValidate.addDeleteMembers)], GroupController.addMembers);
+router.delete('/groups/deletemeMembers/:id', [Validation(GroupValidate.groupId), Validation(GroupValidate.addDeleteMembers)], GroupController.deleteMembers);
+router.delete('/groups/:id', Validation(GroupValidate.groupId), GroupController.deleteGroup);
 
 export default router;

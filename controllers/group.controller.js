@@ -67,6 +67,20 @@ GroupController.newGroup = async (req, res, next) => {
     }
 };
 
+GroupController.deleteGroup = async (req, res, next) => {
+    try {
+        let group = await GroupModel.findById(req.params.id);
+        if (group === null) {
+            return next(new Error('GroupId not exist'));
+        }
+        group.deletedAt = Date.now();
+        await group.save();
+        return res.status(200).json({ isSuccess: true, data: group });
+    } catch(err) {
+        return next(err);
+    }
+}
+
 GroupController.addMembers = async (req, res, next) => {
     try {
         if (req.body.members === null || req.body.members.length === 0) {
