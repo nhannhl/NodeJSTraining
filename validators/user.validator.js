@@ -1,6 +1,7 @@
 'use strict';
 import Joi from 'joi';
 
+const objectIdRegex = /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/;
 const UserValidate = {}
 
 UserValidate.datalUser = {
@@ -12,6 +13,15 @@ UserValidate.datalUser = {
         gender: Joi.bool().default(true),
         age: Joi.number().integer().default(null),
         deletedAt: Joi.valid(null).default(null)
+    }
+}
+
+UserValidate.userId = {
+    params: {
+        id: Joi.string().regex(objectIdRegex)
+    },
+    query: {
+        id: Joi.string().regex(objectIdRegex)
     }
 }
 
