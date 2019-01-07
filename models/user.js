@@ -2,17 +2,19 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 let userSchema = new Schema({
-    firstName: {
-        type: String,
-        required: [true, 'firstName is required'],
-        max: [255, 'firstName is too long']
-    },
-    lastName: {
-        type: String,
-        required: [true, 'firstName is required'],
-        max: [255, 'firstName is too long'],
-        uppercase: true,
-        trim: true
+    fullName: {    
+        first: {
+            type: String,
+            required: [true, 'firstName is required'],
+            max: [255, 'firstName is too long']
+        },
+        last: {
+            type: String,
+            required: [true, 'firstName is required'],
+            max: [255, 'firstName is too long'],
+            uppercase: true,
+            trim: true
+        }
     },
     email: {
         type: String,
@@ -21,7 +23,8 @@ let userSchema = new Schema({
                 return /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/.test(v);
             },
             message: props => `${props.value} is not a valid email address!`
-        }
+        },
+        unique: [true, 'Email is exist']
     },
     password: {
         type: String,
@@ -59,9 +62,9 @@ userSchema.pre('findById', function() {
     setDeletedAt(this.getQuery());
 });
 
-userSchema.virtual('fullName').get(() => {
-    return `${this.firstName} ${this.lastName}`;
-})
+// userSchema.virtual('fullName').get(() => {
+//     return `${this.firstName} ${this.lastName}`;
+// });
 
 let User = mongoose.model('User', userSchema);
 

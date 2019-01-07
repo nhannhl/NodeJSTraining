@@ -1,9 +1,11 @@
+import bcrypt from 'bcrypt';
+import config from '../config/index';
 import UserModel from '../models/user';
 
 const UserController = {};
 
 const checkDataUser = function(data) {
-    if (!data.firstName || !data.lastName || !data.password) {
+    if (!data.fullName.first || !data.fullName.last || !data.password) {
         return false;
     }
 
@@ -28,6 +30,7 @@ UserController.addUser = async (req, res, next) => {
         if (!checkDataUser(req.body)){
             return next(new Error("Validate error"));
         }
+        req.body.password = await bcrypt.hashSync(req.body.password, config.saltRound);
         let user = new UserModel(req.body);
         await user.save();
         return res.status(200).json({ isSuccess: true, data: user });
@@ -48,6 +51,7 @@ UserController.editUser = async (req, res, next) => {
         if (!user) {
             return next(new Error("userId not exist"));
         }
+        req.body.password = await bcrypt.hashSync(req.body.password, config.saltRound);
         user.set(req.body);
         await user.save();
         return res.status(200).json({ isSuccess: true, data: user });
