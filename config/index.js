@@ -23,5 +23,6 @@ export default {
             });
         });
     },
-    'saltRound': 10
+    'saltRound': 10,
+    'roleName': ["admin", "member"]
 }

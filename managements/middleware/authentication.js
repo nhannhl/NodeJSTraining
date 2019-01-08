@@ -12,6 +12,7 @@ export default async (req, res, next) => {
 			if (!user) {
 				return next(new Error('_id not exist'));
 			}
+			req.headers.roleUser = user.role;
 			return next();
 		}
 		return next(new Error("No token provided"));

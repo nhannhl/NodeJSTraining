@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import config from '../config/index';
 const Schema = mongoose.Schema;
 
 let userSchema = new Schema({
@@ -19,8 +20,8 @@ let userSchema = new Schema({
     email: {
         type: String,
         validate: {
-            validator: function(v) {
-                return /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/.test(v);
+            validator: function(value) {
+                return /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/.test(value);
             },
             message: props => `${props.value} is not a valid email address!`
         },
@@ -43,6 +44,18 @@ let userSchema = new Schema({
     deletedAt: {
         type: Date,
         default: null
+    },
+    role: {
+        type: String,
+        validate: {
+            validator: function(v) {
+                if (config.roleName.indexOf(v) == -1) {
+                    return false;
+                }
+                return true;
+            },
+            message: props => `${props.value} is not a valid role!`
+        }
     }
 });
 

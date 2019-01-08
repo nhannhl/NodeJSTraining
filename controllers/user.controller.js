@@ -77,4 +77,12 @@ UserController.deletetUser = async (req, res, next) => {
     }
 }
 
+UserController.testParam = async (req, res, next) => {
+    try {
+        return res.json({ data: req.headers.roleUser });
+    } catch(err) {
+        return next(err);
+    }
+}
+
 export default UserController;
