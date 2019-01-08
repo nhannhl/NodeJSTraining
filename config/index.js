@@ -24,5 +24,6 @@ export default {
         });
     },
     'saltRound': 10,
-    'roleName': ["admin", "member"]
+    'roleName': ["admin", "member"],
+    'baseUrl': "http://127.0.0.1:3000"
 }
