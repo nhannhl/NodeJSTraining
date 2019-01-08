@@ -41,9 +41,6 @@ UserController.addUser = async (req, res, next) => {
 
 UserController.editUser = async (req, res, next) => {
     try {
-        if (!req.params.id) {
-            return next(new Error('Validate error'));
-        }
         if (!checkDataUser(req.body)){
             return next(new Error('Validate error'));
         }
@@ -62,9 +59,6 @@ UserController.editUser = async (req, res, next) => {
 
 UserController.deletetUser = async (req, res, next) => {
     try {
-        if (!req.params.id) {
-            return next(new Error('Validate error'));
-        }
         let user = await UserModel.findById(req.params.id);
         if (!user) {
             return next(new Error('userId not exist'));
@@ -79,9 +73,6 @@ UserController.deletetUser = async (req, res, next) => {
 
 UserController.changeUserPass = async (req, res, next) => {
     try {
-        if (!req.body.password) {
-            return next(new Error('Missing data params'));
-        }
         let user = await UserModel.findById(req.headers.currentId);
         if (!user) {
             return next(new Error('Unknow error'));

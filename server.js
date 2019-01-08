@@ -1,7 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import expressPartial from 'express-partials';
-import ejs from 'ejs';
 import authentication from './managements/middleware/authentication';
 import connectToDb from './db/connect';
 import user from './routes/user.routes';

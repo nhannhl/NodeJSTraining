@@ -8,9 +8,6 @@ const LoginController = {};
 
 LoginController.login = async (req, res, next) => {
     try {
-        if (!req.body.email || !req.body.password) {
-            return next(new Error('Email/password missing'));
-        }
         let user = await UserModel.findOne({email: req.body.email});
         if (!user) {
             return next(new Error('Data not exist'));
