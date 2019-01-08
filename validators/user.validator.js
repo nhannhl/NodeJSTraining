@@ -27,4 +27,10 @@ UserValidate.userId = {
     }
 }
 
+UserValidate.changePass = {
+    body: {
+        password: Joi.string().required().min(6).max(20)
+    }
+}
+
 export default UserValidate;

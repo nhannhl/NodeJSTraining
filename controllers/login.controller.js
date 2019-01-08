@@ -9,19 +9,19 @@ const LoginController = {};
 LoginController.login = async (req, res, next) => {
     try {
         if (!req.body.email || !req.body.password) {
-            return next(new Error("Email/password missing"));
+            return next(new Error('Email/password missing'));
         }
         let user = await UserModel.findOne({email: req.body.email});
         if (!user) {
-            return next(new Error("Data not exist"));
+            return next(new Error('Data not exist'));
         }
         if (!bcrypt.compareSync(req.body.password, user.password)) {
-            return next(new Error("Email/password wrong"));
+            return next(new Error('Email/password wrong'));
         }
         let secretKey = await config.secretKey();
         let token = jwt.sign({
-            "_id": user._id,
-            "email": user.email
+            '_id': user._id,
+            'email': user.email
         }, secretKey, {
             expiresIn: 86400,
             algorithm: 'RS512'

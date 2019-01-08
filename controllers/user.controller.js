@@ -28,7 +28,7 @@ UserController.getUsers = async (req, res, next) => {
 UserController.addUser = async (req, res, next) => {
     try {
         if (!checkDataUser(req.body)){
-            return next(new Error("Validate error"));
+            return next(new Error('Validate error'));
         }
         req.body.password = await bcrypt.hashSync(req.body.password, config.saltRound);
         let user = new UserModel(req.body);
@@ -42,14 +42,14 @@ UserController.addUser = async (req, res, next) => {
 UserController.editUser = async (req, res, next) => {
     try {
         if (!req.params.id) {
-            return next(new Error("Validate error"));
+            return next(new Error('Validate error'));
         }
         if (!checkDataUser(req.body)){
-            return next(new Error("Validate error"));
+            return next(new Error('Validate error'));
         }
         let user = await UserModel.findById(req.params.id);
         if (!user) {
-            return next(new Error("userId not exist"));
+            return next(new Error('userId not exist'));
         }
         req.body.password = await bcrypt.hashSync(req.body.password, config.saltRound);
         user.set(req.body);
@@ -63,11 +63,11 @@ UserController.editUser = async (req, res, next) => {
 UserController.deletetUser = async (req, res, next) => {
     try {
         if (!req.params.id) {
-            return next(new Error("Validate error"));
+            return next(new Error('Validate error'));
         }
         let user = await UserModel.findById(req.params.id);
         if (!user) {
-            return next(new Error("userId not exist"));
+            return next(new Error('userId not exist'));
         }
         user.deletedAt = Date.now();
         await user.save();
@@ -77,9 +77,18 @@ UserController.deletetUser = async (req, res, next) => {
     }
 }
 
-UserController.testParam = async (req, res, next) => {
+UserController.changeUserPass = async (req, res, next) => {
     try {
-        return res.json({ data: req.headers.roleUser });
+        if (!req.body.password) {
+            return next(new Error('Missing data params'));
+        }
+        let user = await UserModel.findById(req.headers.currentId);
+        if (!user) {
+            return next(new Error('Unknow error'));
+        }
+        user.password = await bcrypt.hashSync(req.body.password, config.saltRound);
+        await user.save();
+        return res.status(200).json({ isSuccess: true, data: user });
     } catch(err) {
         return next(err);
     }

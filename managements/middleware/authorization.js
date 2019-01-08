@@ -1,9 +1,8 @@
-export default function autho(...allowed) {
+export default function author(...allowedRoles) {
     return (req, res, next) => {
-        if (req.headers.roleUser && allowed.indexOf(req.headers.roleUser) != -1) {
+        if (req.headers.roleUser && allowedRoles.includes(req.headers.roleUser)) {
             return next();
-        } else {
-            return next(new Error('No acceptable'));
         }
+        return next(new Error('No acceptable'));
     }
 }
