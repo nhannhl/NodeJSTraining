@@ -9,7 +9,4 @@ const router = new Router();
 router.post('/api/login', Validation(LoginValidate.dataLogin), LoginController.login);
 router.post('/api/createUser', Validation(UserValidate.datalUser), LoginController.createUser);
 
-//test
-router.get('/api/testKey', LoginController.testKey);
-
 export default router;

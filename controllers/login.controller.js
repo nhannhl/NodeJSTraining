@@ -23,7 +23,8 @@ LoginController.login = async (req, res, next) => {
             "_id": user._id,
             "email": user.email
         }, secretKey, {
-            expiresIn: 86400
+            expiresIn: 86400,
+            algorithm: 'RS512'
         });
         return res.status(200).json({ isSuccess: true, token: token });
     } catch(err) {
@@ -34,23 +35,6 @@ LoginController.login = async (req, res, next) => {
 LoginController.createUser = async (req, res, next) => {
     try {
         await UserController.addUser(req, res, next);
-    } catch(err) {
-        return next(err);
-    }
-}
-
-LoginController.testKey = async (req, res, next) => {
-    try {
-        let secret = await config.secretKey();
-        let token = jwt.sign({
-            "_id": 1
-        }, secret, {
-            expiresIn: 10,
-            algorithm: 'RS512'  
-        });
-        let publicKey = await config.publicKey();
-        jwt.verify(token, publicKey);
-        return res.json({token});
     } catch(err) {
         return next(err);
     }

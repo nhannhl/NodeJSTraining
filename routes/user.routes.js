@@ -6,7 +6,6 @@ import UserController from '../controllers/user.controller';
 const router = new Router();
 
 router.get('/api/user', UserController.getUsers);
-// router.post('/api/user', Validation(UserValidate.datalUser), UserController.addUser);
 router.post('/api/user/:id', [Validation(UserValidate.userId), Validation(UserValidate.datalUser)], UserController.editUser);
 router.delete('/api/user/:id', Validation(UserValidate.userId), UserController.deletetUser);
 
