@@ -8,7 +8,7 @@ const LoginController = {};
 
 LoginController.login = async (req, res, next) => {
     try {
-        let user = await UserModel.findOne({email: req.body.email});
+        let user = await UserModel.findOne({email: req.body.email}).select('-_id email');
         if (!user) {
             return next(new Error('Data not exist'));
         }

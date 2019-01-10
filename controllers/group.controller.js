@@ -16,7 +16,7 @@ const checkDataGroup = function(data) {
 };
 
 const checkGroupExist = async function(groupName) {
-    let group = await GroupModel.findOne({ name : `${groupName}` });
+    let group = await GroupModel.findOne({ name : groupName });
     if (group !== null) {
         return true;
     }
@@ -69,7 +69,7 @@ GroupController.newGroup = async (req, res, next) => {
 
 GroupController.deleteGroup = async (req, res, next) => {
     try {
-        let group = await GroupModel.findById(req.params.id);
+        let group = await GroupModel.findById(req.params.id).select('-_id deletedAt');
         if (group === null) {
             return next(new Error('GroupId not exist'));
         }
@@ -108,12 +108,6 @@ GroupController.addMembers = async (req, res, next) => {
 
 GroupController.deleteMembers = async (req, res, next) => {
     try {
-        if (req.body.members === null || req.body.members.length === 0) {
-            return res.status(200).json({ isSuccess: true, data: req.body.members });
-        }
-        if (!req.params.id) {
-            return next(new Error('Validate error'));
-        }
         let group = await GroupModel.findById(req.params.id);
         if (group === null) {
             return next(new Error('GroupId not exist'));

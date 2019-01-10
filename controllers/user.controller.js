@@ -59,7 +59,7 @@ UserController.editUser = async (req, res, next) => {
 
 UserController.deletetUser = async (req, res, next) => {
     try {
-        let user = await UserModel.findById(req.params.id);
+        let user = await UserModel.findById(req.params.id).select('-_id deletedAt');
         if (!user) {
             return next(new Error('userId not exist'));
         }
@@ -73,7 +73,7 @@ UserController.deletetUser = async (req, res, next) => {
 
 UserController.changeUserPass = async (req, res, next) => {
     try {
-        let user = await UserModel.findById(req.headers.currentId);
+        let user = await UserModel.findById(req.headers.currentId).select('-_id password');
         if (!user) {
             return next(new Error('Unknow error'));
         }
