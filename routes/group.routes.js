@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import Validation from 'express-validation';
-import Author from '../managements/middleware/Authorrization';
+import Author from '../managements/middleware/authorization';
 import GroupValidate from '../validators/group.validator';
 import GroupController from '../controllers/group.controller';
 
